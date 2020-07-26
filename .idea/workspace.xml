@@ -10,7 +10,12 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="69332162-3926-4903-bcfe-95b2a5b0aad5" name="Default" comment="" />
+    <list default="true" id="69332162-3926-4903-bcfe-95b2a5b0aad5" name="Default" comment="">
+      <change afterPath="$PROJECT_DIR$/new/main_py.spec" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/new/tests/test.dbc" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/new/tests/test.xlsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -30,7 +35,7 @@
     </findStrings>
   </component>
   <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/here" />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="ProjectId" id="1cgF7Ztzmdj6h8qATugwStYnMMb" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -161,6 +166,14 @@
       <option name="presentableId" value="Default" />
       <updated>1527140885678</updated>
     </task>
+    <task id="LOCAL-00001" summary="new">
+      <created>1595778811426</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1595778811426</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -173,6 +186,11 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="new" />
+    <option name="LAST_COMMIT_MESSAGE" value="new" />
   </component>
   <component name="WindowStateProjectService">
     <state x="1423" y="565" key="FileChooserDialogImpl" timestamp="1590942613076">
@@ -199,6 +217,10 @@
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
     <state x="906" y="452" key="SettingsEditor/0.0.2560.1400/2560.0.1920.1040@0.0.2560.1400" timestamp="1595778483121" />
+    <state x="858" y="457" key="Vcs.Push.Dialog.v2" timestamp="1595778888799">
+      <screen x="0" y="0" width="2560" height="1400" />
+    </state>
+    <state x="858" y="457" key="Vcs.Push.Dialog.v2/0.0.2560.1400/2560.0.1920.1040@0.0.2560.1400" timestamp="1595778888799" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
