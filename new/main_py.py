@@ -1,5 +1,5 @@
 
-from PyQt5 import  QtGui, QtWidgets
+from PyQt5 import  QtGui, QtWidgets, QtCore
 # from PyQt5.QtWidgets import QFileDialog,QTreeWidgetItem,QTreeWidget
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import pyqtSignal
@@ -17,6 +17,48 @@ import canmatrix.canmatrix as cm
 import canmatrix.copy as cmcp
 import random
 
+
+
+class convert_exec_thread(QtCore.QThread):
+    _signal = pyqtSignal(str)
+    _file_btn_signal = pyqtSignal(bool)
+    def __init__(self, out_put_file, option, dbs): 
+        super(convert_exec_thread, self).__init__()
+        self.out_put_file = out_put_file
+        self.option = option
+        self.dbs = dbs
+    def run(self):
+        options = self.option
+        dbs = self.dbs
+        outdbs = {}
+        for name in dbs:
+            db = None
+
+            if 'ecus' in options and options['ecus'] is not None:
+                ecuList = options['ecus'].split(',')
+                db = cm.CanMatrix()
+                for ecu in ecuList:
+                    cmcp.copyBUwithFrames(ecu, dbs[name], db)
+            if 'frames' in options and options['frames'] is not None:
+                frameList = options['frames'].split(',')
+                db = cm.CanMatrix()
+                for frame in frameList:
+                    cmcp.copyFrame(frame, dbs[name], db)
+            if db is None:
+                db = dbs[name]
+
+            outdbs[name] = db
+        out = canmatrix.formats.dumpp(outdbs, self.out_put_file,bcExportEncoding='iso-8859-1',)
+
+        self._signal.emit("Convert test!")
+        if out == -1:
+            self._signal.emit("Convert Failed!")
+            self.open_convert_done_file_btn.setEnabled(False)
+        else:
+            self._signal.emit("Convert Success!")
+            self._signal.emit("Out put file: "  + self.out_put_file)
+            self.convert_done_file_name = self.out_put_file
+            self._file_btn_signal.emit(True)
 
 
 class dbc2excel(main_wd.Ui_MainWindow):
@@ -146,7 +188,7 @@ class dbc2excel(main_wd.Ui_MainWindow):
             outdbs[name] = db
 
         out = canmatrix.formats.dumpp(outdbs, out_put_file)
-
+        self.signal.emit("Convert test!")   
         if out == -1:
             self.textEdit.append("Convert Failed!")
             self.open_convert_done_file_btn.setEnabled(False)
@@ -155,14 +197,6 @@ class dbc2excel(main_wd.Ui_MainWindow):
             self.textEdit.append("Out put file: "  + out_put_file)
             self.convert_done_file_name = out_put_file
             self.open_convert_done_file_btn.setEnabled(True)
-
-
-
-
-    def convett_work_thread(self,out_put_file,option):
-        self.convert_btn.setEnabled(False)
-        self.convert_exec(out_put_file,option)
-        self.convert_btn.setEnabled(True)
 
 
     def on_convert_cb(self):
@@ -183,8 +217,16 @@ class dbc2excel(main_wd.Ui_MainWindow):
             if file_name == '':
                 pass
             else:
-                work_thread = threading.Thread(target = self.convett_work_thread, args=(file_name,self.option))
-                work_thread.start()
+                self.thread = convert_exec_thread(file_name,self.option,self.dbs)
+                self.thread._signal.connect(self.append_text)
+                self.thread._file_btn_signal.connect(self.set_file_btn_state)
+                self.thread.start()
+
+    def append_text(self,data):
+        self.textEdit.append(data)
+
+    def set_file_btn_state(self, state):
+        self.open_convert_done_file_btn.setEnabled(state)
 
     def open_convert_done_file_cb(self):
         if self.convert_done_file_name != None:
